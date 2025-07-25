@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -73,7 +76,10 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
         return (
           <div className="bg-gray-50 rounded-lg p-6">
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+              >
                 {item.preview}
               </ReactMarkdown>
             </div>
@@ -98,7 +104,10 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
         return (
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="prose prose-sm max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+              >
                 {item.preview}
               </ReactMarkdown>
             </div>
