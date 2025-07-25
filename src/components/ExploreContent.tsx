@@ -31,7 +31,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '详细讲解高中数学函数的性质、图像变换和应用，包含大量例题和解题技巧。',
     views: 1234,
-    likes: 89
+    likes: 89,
+    addedDate: '2024-07-20'
   },
   {
     id: '2',
@@ -42,7 +43,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '从牛顿定律到动量守恒，系统梳理初中物理力学知识点，配有实验演示视频。',
     views: 987,
-    likes: 67
+    likes: 67,
+    addedDate: '2024-07-18'
   },
   {
     id: '3',
@@ -53,7 +55,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '高中有机化学重点反应机理分析，包括取代、加成、消除反应的详细过程。',
     views: 2156,
-    likes: 145
+    likes: 145,
+    addedDate: '2024-07-15'
   },
   {
     id: '4',
@@ -64,7 +67,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '高中生物细胞结构与功能专题，包含细胞膜、细胞器和细胞分裂的详细讲解。',
     views: 1876,
-    likes: 123
+    likes: 123,
+    addedDate: '2024-07-12'
   },
   {
     id: '5',
@@ -75,7 +79,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '高考语文古诗词鉴赏答题技巧，涵盖意象分析、情感把握和表现手法识别。',
     views: 1543,
-    likes: 98
+    likes: 98,
+    addedDate: '2024-07-10'
   },
   {
     id: '6',
@@ -86,7 +91,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '初高中英语16种时态系统讲解，配有练习题和口语应用场景示例。',
     views: 2234,
-    likes: 167
+    likes: 167,
+    addedDate: '2024-07-08'
   },
   {
     id: '7',
@@ -97,7 +103,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '从鸦片战争到新中国成立，系统梳理中国近代史重要事件和历史意义。',
     views: 1654,
-    likes: 112
+    likes: 112,
+    addedDate: '2024-07-05'
   },
   {
     id: '8',
@@ -108,7 +115,8 @@ const mockKnowledgeBase = [
     type: 'knowledge' as const,
     description: '高中地理气候类型特征、分布规律和成因分析，包含典型地区案例研究。',
     views: 1432,
-    likes: 95
+    likes: 95,
+    addedDate: '2024-07-03'
   },
   {
     id: '9',
@@ -168,7 +176,8 @@ const mockKnowledgeBase = [
     views: 89,
     likes: 23,
     type: 'cards' as const,
-    source: 'text' as const
+    source: 'text' as const,
+    addedDate: '2024-07-01'
   },
   {
     id: '14',
@@ -180,7 +189,8 @@ const mockKnowledgeBase = [
     views: 156,
     likes: 45,
     type: 'cards' as const,
-    source: 'voice' as const
+    source: 'voice' as const,
+    addedDate: '2024-06-28'
   },
   {
     id: '15',
@@ -192,7 +202,8 @@ const mockKnowledgeBase = [
     views: 134,
     likes: 38,
     type: 'cards' as const,
-    source: 'image' as const
+    source: 'image' as const,
+    addedDate: '2024-06-25'
   },
   {
     id: '16',
@@ -204,7 +215,8 @@ const mockKnowledgeBase = [
     views: 98,
     likes: 27,
     type: 'cards' as const,
-    source: 'shared' as const
+    source: 'shared' as const,
+    addedDate: '2024-06-22'
   },
   {
     id: '17',
@@ -216,7 +228,8 @@ const mockKnowledgeBase = [
     views: 167,
     likes: 52,
     type: 'cards' as const,
-    source: 'text' as const
+    source: 'text' as const,
+    addedDate: '2024-06-20'
   },
   {
     id: '18',
@@ -228,7 +241,8 @@ const mockKnowledgeBase = [
     views: 143,
     likes: 41,
     type: 'cards' as const,
-    source: 'image' as const
+    source: 'image' as const,
+    addedDate: '2024-06-18'
   }
 ];
 
@@ -324,7 +338,7 @@ export default function ExploreContent({
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={handleSearchFocus}
               onBlur={handleSearchBlur}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900"
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
@@ -383,7 +397,7 @@ export default function ExploreContent({
 
       {/* 知识库网格 */}
       {filteredKnowledge.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {filteredKnowledge.map((item) => (
             <div key={item.id} className="w-full max-w-xs mx-auto">
               <KnowledgeCard {...item} type={item.type} />
