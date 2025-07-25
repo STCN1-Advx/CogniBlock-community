@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -61,33 +63,63 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
   };
 
   const getPreviewContent = () => {
+    // 检查预览内容是否包含Markdown语法
+    const isMarkdown = item.preview.includes('#') || item.preview.includes('**') || 
+                      item.preview.includes('*') || item.preview.includes('`') ||
+                      item.preview.includes('[') || item.preview.includes('>');
+
     if (item.type === 'knowledge') {
-      return (
-        <div className="bg-gray-50 rounded-lg p-6 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center">
-            <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
+      if (isMarkdown) {
+        return (
+          <div className="bg-gray-50 rounded-lg p-6">
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {item.preview}
+              </ReactMarkdown>
+            </div>
           </div>
-          <p className="text-gray-600">知识库文档预览</p>
-          <p className="text-sm text-gray-500 mt-2">{item.preview}</p>
-        </div>
-      );
+        );
+      } else {
+        return (
+          <div className="bg-gray-50 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-600">知识库文档预览</p>
+            <p className="text-sm text-gray-500 mt-2">{item.preview}</p>
+          </div>
+        );
+      }
     } else {
-      // 卡片类型显示文本预览
-      const lines = item.preview.split('\n').slice(0, 5);
-      return (
-        <div className="bg-gray-50 rounded-lg p-4">
-          <div className="space-y-2">
-            {lines.map((line, index) => (
-              <div key={index} className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-gray-700 text-sm leading-relaxed">{line}</p>
-              </div>
-            ))}
+      // 卡片类型支持Markdown渲染
+      if (isMarkdown) {
+        return (
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {item.preview}
+              </ReactMarkdown>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        // 纯文本显示
+        const lines = item.preview.split('\n').slice(0, 5);
+        return (
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="space-y-2">
+              {lines.map((line, index) => (
+                <div key={index} className="flex items-start gap-2">
+                  <div className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-700 text-sm leading-relaxed">{line}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
     }
   };
 
