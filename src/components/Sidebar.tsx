@@ -45,9 +45,9 @@ export default function Sidebar({ selectedCategories, setSelectedCategories, sho
        {/* 侧边栏 */}
        <div className={`w-64 bg-white border-r border-gray-200 fixed left-0 z-50 md:block transition-transform duration-300 ease-in-out ${
          showSidebar ? 'translate-x-0' : '-translate-x-full'
-       } md:translate-x-0 top-16 bottom-20 md:bottom-0`}>
+       } md:translate-x-0 top-16 bottom-0`}>
       <div className="h-full overflow-y-auto">
-        <div className="p-4">
+        <div className="p-4 pb-24 md:pb-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-900">分类筛选</h2>
           {selectedCategories.length > 0 && (
