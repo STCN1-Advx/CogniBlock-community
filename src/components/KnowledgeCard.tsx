@@ -1,7 +1,9 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useRef } from 'react';
 import { cardHoverAnimation, cardLeaveAnimation, buttonClickAnimation } from '@/utils/animations';
+import DetailModal from './DetailModal';
 
 interface KnowledgeCardProps {
   id: string;
@@ -14,6 +16,7 @@ interface KnowledgeCardProps {
   views: number;
   likes: number;
   source?: 'image' | 'voice' | 'text' | 'shared';
+  addedDate?: string;
 }
 
 // 根据卡片来源获取状态颜色
@@ -32,18 +35,21 @@ const getCardStatusColor = (source?: string): string => {
   }
 };
 
-export default function KnowledgeCard({
-  id,
-  title,
-  author,
-  preview,
-  category,
-  type,
-  description,
-  views,
-  likes,
-  source
-}: KnowledgeCardProps) {
+export default function KnowledgeCard(props: KnowledgeCardProps) {
+  const {
+    id,
+    title,
+    author,
+    preview,
+    category,
+    type,
+    description,
+    views,
+    likes,
+    source
+  } = props;
+  
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const uploadButtonRef = useRef<HTMLButtonElement>(null);
   const addButtonRef = useRef<HTMLButtonElement>(null);
@@ -73,12 +79,14 @@ export default function KnowledgeCard({
   };
 
   return (
-    <div 
-      ref={cardRef}
-      className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 cursor-pointer overflow-hidden"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <>
+      <div 
+        ref={cardRef}
+        className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 cursor-pointer overflow-hidden"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => setIsDetailOpen(true)}
+      >
       
       <div className="flex-1">
         {type === 'knowledge' ? (
@@ -199,6 +207,13 @@ export default function KnowledgeCard({
           </div>
         )}
       </div>
-    </div>
+      </div>
+      
+      <DetailModal 
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        item={props}
+      />
+    </>
   );
 }
