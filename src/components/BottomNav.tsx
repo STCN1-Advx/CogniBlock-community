@@ -8,7 +8,7 @@ interface BottomNavProps {
 export default function BottomNav({ activeTab, setActiveTab }: BottomNavProps) {
   return (
     <div className="md:hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl shadow-lg border border-gray-100 z-50">
-      <div className="flex gap-2 p-1">
+      <div className="flex gap-1 p-1">
         <button
           onClick={() => setActiveTab('explore')}
           className={`flex flex-col items-center py-2 px-4 rounded-xl transition-all duration-200 ${
