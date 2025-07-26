@@ -188,7 +188,7 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
                 <div className={`w-1 h-6 ${getCardStatusColor(source)} rounded-full mr-3`}></div>
                 <div>
                   <div className="text-sm font-medium text-gray-900">{category}</div>
-                  <div className="text-xs text-gray-500">2024-07-24</div>
+                  <div className="text-xs text-gray-500">{author}</div>
                 </div>
               </div>
               
