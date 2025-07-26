@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 interface SidebarProps {
   selectedCategories: string[];
   setSelectedCategories: (categories: string[]) => void;
@@ -7,24 +9,66 @@ interface SidebarProps {
   setShowSidebar: (show: boolean) => void;
 }
 
-const categories = [
-  { id: 'math', name: '数学' },
-  { id: 'physics', name: '物理' },
-  { id: 'chemistry', name: '化学' },
-  { id: 'biology', name: '生物' },
-  { id: 'chinese', name: '语文' },
-  { id: 'english', name: '英语' },
-  { id: 'history', name: '历史' },
-  { id: 'geography', name: '地理' },
-  { id: 'politics', name: '政治' }
+const categoryGroups = [
+  {
+    id: 'science',
+    name: '理科',
+    subcategories: [
+      { id: 'math', name: '数学' },
+      { id: 'physics', name: '物理' },
+      { id: 'chemistry', name: '化学' },
+      { id: 'biology', name: '生物' }
+    ]
+  },
+  {
+    id: 'liberal-arts',
+    name: '文科',
+    subcategories: [
+      { id: 'chinese', name: '语文' },
+      { id: 'english', name: '英语' },
+      { id: 'history', name: '历史' },
+      { id: 'geography', name: '地理' },
+      { id: 'politics', name: '政治' }
+    ]
+  },
+  {
+    id: 'technology',
+    name: '技术',
+    subcategories: [
+      { id: 'programming', name: '编程' },
+      { id: 'ai', name: '人工智能' },
+      { id: 'web-dev', name: 'Web开发' },
+      { id: 'mobile-dev', name: '移动开发' }
+    ]
+  },
+  {
+    id: 'business',
+    name: '商业',
+    subcategories: [
+      { id: 'marketing', name: '市场营销' },
+      { id: 'finance', name: '金融' },
+      { id: 'management', name: '管理' },
+      { id: 'economics', name: '经济学' }
+    ]
+  }
 ];
 
 export default function Sidebar({ selectedCategories, setSelectedCategories, showSidebar, setShowSidebar }: SidebarProps) {
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(['science', 'liberal-arts']);
+
   const toggleCategory = (categoryName: string) => {
     if (selectedCategories.includes(categoryName)) {
       setSelectedCategories(selectedCategories.filter(cat => cat !== categoryName));
     } else {
       setSelectedCategories([...selectedCategories, categoryName]);
+    }
+  };
+
+  const toggleGroup = (groupId: string) => {
+    if (expandedGroups.includes(groupId)) {
+      setExpandedGroups(expandedGroups.filter(id => id !== groupId));
+    } else {
+      setExpandedGroups([...expandedGroups, groupId]);
     }
   };
 
@@ -60,26 +104,56 @@ export default function Sidebar({ selectedCategories, setSelectedCategories, sho
           )}
         </div>
         
-        <div className="space-y-1">
-          {categories.map((category) => {
-            const isSelected = selectedCategories.includes(category.name);
+        <div className="space-y-2">
+          {categoryGroups.map((group) => {
+            const isExpanded = expandedGroups.includes(group.id);
             return (
-              <button
-                key={category.id}
-                onClick={() => toggleCategory(category.name)}
-                className={`w-full flex items-center px-3 py-2 rounded-lg text-left transition-all duration-200 ${
-                  isSelected
-                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                }`}
-              >
-                <span className="text-sm font-medium flex-1">{category.name}</span>
-                {isSelected && (
-                  <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <div key={group.id} className="border border-gray-200 rounded-lg">
+                {/* 大类标题 */}
+                <button
+                  onClick={() => toggleGroup(group.id)}
+                  className="w-full flex items-center justify-between px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-t-lg transition-all duration-200"
+                >
+                  <span className="text-sm font-semibold text-gray-800">{group.name}</span>
+                  <svg
+                    className={`w-4 h-4 text-gray-600 transition-transform duration-200 ${
+                      isExpanded ? 'rotate-180' : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
+                </button>
+                
+                {/* 小类列表 */}
+                {isExpanded && (
+                  <div className="px-2 pb-2 space-y-1">
+                    {group.subcategories.map((category) => {
+                      const isSelected = selectedCategories.includes(category.name);
+                      return (
+                        <button
+                          key={category.id}
+                          onClick={() => toggleCategory(category.name)}
+                          className={`w-full flex items-center px-3 py-2 rounded-md text-left transition-all duration-200 ${
+                            isSelected
+                              ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                              : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                          }`}
+                        >
+                          <span className="text-sm font-medium flex-1">{category.name}</span>
+                          {isSelected && (
+                            <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 )}
-              </button>
+              </div>
             );
           })}
         </div>
