@@ -110,3 +110,45 @@ export const loadingAnimation = (element: HTMLElement) => {
     repeat: -1
   });
 };
+
+// 页面切换动画 - 缩小淡出
+export const pageTransitionOut = (element: HTMLElement) => {
+  return gsap.to(element, {
+    opacity: 0,
+    scale: 0.99,
+    duration: 0.2,
+    ease: 'power1.inOut',
+    transformOrigin: '50% 400px'
+  });
+};
+
+// 页面切换动画 - 放大淡入
+export const pageTransitionIn = (element: HTMLElement) => {
+  return gsap.fromTo(element, 
+    {
+      opacity: 0,
+      scale: 0.98,
+      transformOrigin: '50% 200px'
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      duration: 0.3,
+      ease: 'power1.inOut',
+      transformOrigin: '50% 300px'
+    }
+  );
+};
+
+// 页面切换动画 - 完整切换
+export const pageTransition = async (outElement: HTMLElement, inElement: HTMLElement) => {
+  // 先缩小淡出当前页面
+  await pageTransitionOut(outElement);
+  
+  // 隐藏当前页面
+  gsap.set(outElement, { display: 'none' });
+  
+  // 显示新页面并放大淡入
+  gsap.set(inElement, { display: 'block' });
+  return pageTransitionIn(inElement);
+};
