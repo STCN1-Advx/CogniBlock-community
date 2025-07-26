@@ -187,7 +187,7 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
               <button 
                 ref={addButtonRef}
                 onClick={handleAddClick}
-                className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors text-sm font-medium flex items-center gap-2 flex-shrink-0"
+                className="px-3 py-1.5 bg-blue-500 text-white hover:bg-blue-600 rounded-md transition-colors text-sm font-medium flex items-center gap-1 flex-shrink-0"
                 title="添加到知识库"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

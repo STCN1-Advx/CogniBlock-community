@@ -86,22 +86,8 @@ export default function Navbar({ activeTab, setActiveTab }: NavbarProps) {
               >
                 <span className="sr-only">打开用户菜单</span>
                 <div className="w-8 h-8 rounded-full flex items-center justify-center relative">
-                  {/* 支持多种图片格式的用户头像 */}
-                  <img 
-                    src="/images/avatars/user-avatar.png" 
-                    alt="用户头像" 
-                    className="w-full h-full object-cover rounded-full"
-                    onError={(e) => {
-                      // 图片加载失败时显示默认头像
-                      e.currentTarget.style.display = 'none';
-                      const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                      if (fallback) {
-                        fallback.style.display = 'flex';
-                      }
-                    }}
-                  />
-                  {/* 默认头像 fallback */}
-                  <div className="w-full h-full bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center" style={{display: 'none'}}>
+                  {/* 字母头像 */}
+                  <div className="w-full h-full bg-gradient-to-br from-primary-400 to-primary-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-medium">U</span>
                   </div>
                 </div>
