@@ -66,13 +66,15 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
     }
   };
 
-  const handleUploadClick = () => {
+  const handleUploadClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止事件冒泡
     if (uploadButtonRef.current) {
       buttonClickAnimation(uploadButtonRef.current);
     }
   };
 
-  const handleAddClick = () => {
+  const handleAddClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止事件冒泡
     if (addButtonRef.current) {
       buttonClickAnimation(addButtonRef.current);
     }
@@ -82,13 +84,13 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
     <>
       <div 
         ref={cardRef}
-        className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 cursor-pointer overflow-hidden"
+        className="bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:border-blue-200 transition-all duration-300 cursor-pointer overflow-hidden h-full flex flex-col"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={() => setIsDetailOpen(true)}
       >
       
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         {type === 'knowledge' ? (
           // 知识库样式 - 保持原有设计
           <>
@@ -102,7 +104,7 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
             </div>
             
             {/* 内容区域 */}
-            <div className="p-4">
+            <div className="p-4 flex-1 flex flex-col">
               <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 leading-tight">
                 {title}
               </h3>
@@ -113,7 +115,7 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
                 </span>
               </div>
               
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mt-auto">
                 <div className="flex items-center text-sm text-gray-600">
                   <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center mr-2">
                     <span className="text-xs font-medium text-gray-500">
@@ -127,7 +129,7 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
                   <button 
                     ref={uploadButtonRef}
                     onClick={handleUploadClick}
-                    className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-md transition-colors"
+                    className="p-2.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-md transition-colors"
                     title="查看"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,26 +154,16 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
           </>
         ) : (
           // 卡片样式 - 新的设计，类似图片中的样式
-          <div className="p-5">
+          <div className="p-5 flex flex-col h-full">
             {/* 标题区域 */}
-            <div className="flex items-start justify-between mb-4">
-              <h3 className="text-lg font-bold text-gray-900 leading-tight flex-1 mr-3">
+            <div className="mb-4">
+              <h3 className="text-lg font-bold text-gray-900 leading-tight">
                 {title}
               </h3>
-              <button 
-                ref={uploadButtonRef}
-                onClick={handleUploadClick}
-                className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors flex-shrink-0"
-                title="查看"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                </svg>
-              </button>
             </div>
             
             {/* 内容预览 - 要点列表形式 */}
-            <div className="mb-6">
+            <div className="mb-6 flex-1">
               {preview.split('\n').slice(0, 3).map((line, index) => (
                 line.trim() && (
                   <div key={index} className="flex items-start mb-2 text-sm text-gray-700">
@@ -183,19 +175,19 @@ export default function KnowledgeCard(props: KnowledgeCardProps) {
             </div>
             
             {/* 底部信息 */}
-            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-              <div className="flex items-center">
-                <div className={`w-1 h-6 ${getCardStatusColor(source)} rounded-full mr-3`}></div>
-                <div>
-                  <div className="text-sm font-medium text-gray-900">{category}</div>
-                  <div className="text-xs text-gray-500">{author}</div>
+            <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
+              <div className="flex items-center min-w-0 flex-1 mr-3">
+                <div className={`w-1 h-6 ${getCardStatusColor(source)} rounded-full mr-3 flex-shrink-0`}></div>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm font-medium text-gray-900 truncate max-w-[120px]">{category}</div>
+                  <div className="text-xs text-gray-500 truncate max-w-[120px]">{author}</div>
                 </div>
               </div>
               
               <button 
                 ref={addButtonRef}
                 onClick={handleAddClick}
-                className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+                className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors text-sm font-medium flex items-center gap-2 flex-shrink-0"
                 title="添加到知识库"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

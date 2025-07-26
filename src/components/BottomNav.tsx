@@ -36,7 +36,7 @@ export default function BottomNav({ activeTab, setActiveTab }: BottomNavProps) {
           
           <button
             onClick={() => setActiveTab('library')}
-            className={`flex flex-col items-center py-2.5 px-5 min-w-[70px] rounded-full transition-all duration-300 transform ${
+            className={`flex flex-col items-center py-2.5 px-5 min-w-[80px] rounded-full transition-all duration-300 transform ${
               activeTab === 'library'
                 ? 'text-primary-500 bg-primary-100 scale-105'
                 : 'text-gray-600 hover:text-primary-500 hover:bg-primary-50 hover:scale-105'
