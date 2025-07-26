@@ -151,6 +151,9 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
             isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
           }`}
         >
+          {/* 顶部渐变遮罩层 */}
+          <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white via-white/80 to-transparent z-5 pointer-events-none"></div>
+          
           {/* 关闭按钮 */}
           <button
             onClick={onClose}
@@ -162,7 +165,7 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
           </button>
 
           {/* 内容区域 */}
-          <div className="p-6 overflow-y-auto max-h-[90vh]">
+          <div className="p-6 pt-20 overflow-y-auto max-h-[90vh]">
             {/* 标题 */}
             <h1 className="text-2xl font-bold text-gray-900 mb-4 pr-12">{item.title}</h1>
             
@@ -224,6 +227,9 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
             <div className="w-10 h-1 bg-gray-300 rounded-full"></div>
           </div>
 
+          {/* 顶部渐变遮罩层 */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white/80 to-transparent z-5 pointer-events-none rounded-t-3xl"></div>
+
           {/* 关闭按钮 */}
           <button
             onClick={onClose}
@@ -235,7 +241,7 @@ export default function DetailModal({ isOpen, onClose, item }: DetailModalProps)
           </button>
 
           {/* 内容区域 */}
-          <div className="px-6 pb-6 overflow-y-auto" style={{ height: 'calc(100% - 3rem)' }}>
+          <div className="px-6 pb-6 pt-20 overflow-y-auto" style={{ height: 'calc(100% - 3rem)' }}>
             {/* 标题 */}
             <h1 className="text-xl font-bold text-gray-900 mb-4 pr-12">{item.title}</h1>
             
